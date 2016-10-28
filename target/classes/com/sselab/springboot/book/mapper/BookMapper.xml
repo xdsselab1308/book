@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sselab.springboot.book.mapper.BookMapper">
+
+    <select id="findBookInfo" resultType="BookModel">
+          SELECT DISTINCT
+          p.`BOOK_PK_ID` AS `bookId`,
+          p.`BOOK_NAME` AS `bookname`,
+          p.`BOOK_YEAR` AS `year`,
+          p.`BOOK_FK_AUTHOR_ID` AS `authorId`
+        FROM `BOOK` AS p JOIN `AUTHOR` AS m 
+ON (m.`AUTHOR_PK_ID` = p.`BOOK_FK_AUTHOR_ID`) WHERE m.AUTHOR_PK_ID = #{authorId}
+    </select>
+    
+    <select id="findAuthorId" resultType="AuthorModel">
+          SELECT 
+          `AUTHOR_PK_ID` AS `authorId`,
+          `AUTHOR_NAME` AS `authorname`,
+          `AUTHOR_EMAIL` AS `email`,
+          `AUTHOR_ADDRESS` AS `address`
+        FROM `AUTHOR` WHERE AUTHOR_NAME = #{authorname}
+    </select>
+
+</mapper>
