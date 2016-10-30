@@ -22,7 +22,7 @@ public class BookVM {
     }
 
     public static List<BookVM> FromModel(List<BookModel> list) {
-        List<BookVM> ret = new ArrayList<>(list.size());
+        List<BookVM> ret = new ArrayList<BookVM>(list.size());
         for (BookModel item : list) {
             ret.add(FromModel(item));
         }
