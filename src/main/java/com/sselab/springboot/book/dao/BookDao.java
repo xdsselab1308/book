@@ -16,5 +16,13 @@ public interface  BookDao {
 	int insert(BookModel model);
 
 	boolean AuthorId(String authorname);
+	
+	int update(BookModel entity);
+	
+	int deleteById(long bookId);
+	
+	List<BookModel> selectPaged(int page, int limits);
+	
+	BookModel selectById(long bookId);
 
 }

@@ -57,6 +57,31 @@ public class BookDaoImpl implements BookDao {
 		// TODO Auto-generated method stub
 		return mapper.insert(model);
 	}
+
+	@Override
+	public int update(BookModel entity) {
+		// TODO Auto-generated method stub
+		return mapper.updateByPrimaryKeySelective(entity);
+	}
+
+	@Override
+	public int deleteById(long bookId) {
+		// TODO Auto-generated method stub
+		return mapper.deleteByPrimaryKey(bookId);
+	}
+
+	@Override
+	public List<BookModel> selectPaged(int page, int limits) {
+		// TODO Auto-generated method stub
+		int offset = (page - 1) * limits;
+        return mapper.selectPaged(offset, limits, "BOOK_PK_ID ASC");
+	}
+
+	@Override
+	public BookModel selectById(long bookId) {
+		// TODO Auto-generated method stub
+		return mapper.selectByPrimaryKey(bookId);
+	}
 	
 	
 

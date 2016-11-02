@@ -22,5 +22,17 @@ ON (m.`AUTHOR_PK_ID` = p.`BOOK_FK_AUTHOR_ID`) WHERE m.AUTHOR_PK_ID = #{authorId}
           `AUTHOR_ADDRESS` AS `address`
         FROM `AUTHOR` WHERE AUTHOR_NAME = #{authorname}
     </select>
+    
+    <select id="selectPaged" resultType="BookModel">
+        SELECT DISTINCT
+           p.`BOOK_PK_ID` AS `bookId`,
+          p.`BOOK_NAME` AS `bookname`,
+          p.`BOOK_YEAR` AS `year`,
+          p.`BOOK_FK_AUTHOR_ID` AS `authorId`
+        FROM `BOOK` AS p
+        <if test="limits != null">
+            ORDER BY ${orderBy} LIMIT <if test="offset != null">#{offset},</if> #{limits}
+        </if>
+    </select>
 
 </mapper>
