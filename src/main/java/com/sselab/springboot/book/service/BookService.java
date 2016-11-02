@@ -21,7 +21,9 @@ public interface BookService {
 	List<BookModel> selectPaged(int page, int limits);
 	
 	BookModel getById(long bookId);
+	
+	BookModel getByName(String bookname);
 
-
+	public List<BookModel> getBookByAuthorName(String authorname);
 }
 

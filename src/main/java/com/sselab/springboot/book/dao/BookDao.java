@@ -24,5 +24,9 @@ public interface  BookDao {
 	List<BookModel> selectPaged(int page, int limits);
 	
 	BookModel selectById(long bookId);
+	
+	BookModel findBookByName(String bookname);
+	
+	List<BookModel> finaBookByAuthorName(String authorname);
 
 }

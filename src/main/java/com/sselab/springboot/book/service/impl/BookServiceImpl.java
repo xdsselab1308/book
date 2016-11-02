@@ -103,4 +103,16 @@ public class BookServiceImpl implements BookService {
 		// TODO Auto-generated method stub
 		return bookDao.selectById(bookId);
 	}
+
+	@Override
+	public BookModel getByName(String bookname) {
+		// TODO Auto-generated method stub
+		return bookDao.findBookByName(bookname);
+	}
+
+	@Override
+	public List<BookModel> getBookByAuthorName(String authorname) {
+		// TODO Auto-generated method stub
+		return bookDao.finaBookByAuthorName(authorname);
+	}
 }

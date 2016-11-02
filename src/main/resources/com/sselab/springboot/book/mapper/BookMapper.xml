@@ -34,5 +34,24 @@ ON (m.`AUTHOR_PK_ID` = p.`BOOK_FK_AUTHOR_ID`) WHERE m.AUTHOR_PK_ID = #{authorId}
             ORDER BY ${orderBy} LIMIT <if test="offset != null">#{offset},</if> #{limits}
         </if>
     </select>
+    
+    <select id="findBookByName" resultType="BookModel">
+          SELECT 
+          `BOOK_PK_ID` AS `bookId`,
+          `BOOK_NAME` AS `bookname`,
+          `BOOK_YEAR` AS `year`,
+          `BOOK_FK_AUTHOR_ID` AS `authorId`
+        FROM `BOOK` WHERE BOOK_NAME = #{bookname}
+    </select>
+    
+    <select id="findBookByAuthorName" resultType="BookModel">
+          SELECT DISTINCT
+          p.`BOOK_PK_ID` AS `bookId`,
+          p.`BOOK_NAME` AS `bookname`,
+          p.`BOOK_YEAR` AS `year`,
+          p.`BOOK_FK_AUTHOR_ID` AS `authorId`
+        FROM `BOOK` AS p JOIN `AUTHOR` AS m 
+ON (m.`AUTHOR_PK_ID` = p.`BOOK_FK_AUTHOR_ID`) WHERE m.AUTHOR_NAME = #{authorname}
+    </select>
 
 </mapper>

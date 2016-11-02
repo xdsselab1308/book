@@ -75,6 +75,23 @@ public class BookController {
     	return model;
     }
     
+    @RequestMapping("/getBookByName")
+    @ResponseBody
+    public BookModel getBook(@RequestParam String bookname) {
+    	BookModel model = bookService.getByName(bookname);
+    	return model;
+    }
+    
+    
+    @RequestMapping("/getBookByAuthorName")
+    @ResponseBody
+    public List<BookModel> getBookByAuthorName(@RequestParam String authorname) {
+    	List<BookModel> list = bookService.getBookByAuthorName(authorname);
+    	return list;
+    }
+    
+    
+    
 }
 
 

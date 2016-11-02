@@ -17,5 +17,8 @@ public interface BookMapper extends BaseMapper<BookModel>{
 	public List<BookModel> selectPaged(@Param("offset") Integer offset,
             @Param("limits") Integer limits,
             @Param("orderBy") String orderBy);
+	
+	public BookModel findBookByName(String bookname);
 
+	public List<BookModel> findBookByAuthorName(String authorname);
 }

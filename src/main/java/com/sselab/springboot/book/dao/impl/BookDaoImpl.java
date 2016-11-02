@@ -82,6 +82,18 @@ public class BookDaoImpl implements BookDao {
 		// TODO Auto-generated method stub
 		return mapper.selectByPrimaryKey(bookId);
 	}
+
+	@Override
+	public BookModel findBookByName(String bookname) {
+		// TODO Auto-generated method stub
+		return mapper.findBookByName(bookname);
+	}
+
+	@Override
+	public List<BookModel> finaBookByAuthorName(String authorname) {
+		// TODO Auto-generated method stub
+		return mapper.findBookByAuthorName(authorname);
+	}
 	
 	
 
