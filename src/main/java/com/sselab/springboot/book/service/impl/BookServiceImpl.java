@@ -87,6 +87,27 @@ public class BookServiceImpl implements BookService {
 			return model1.getBookId();
 		}		
 	}
+	
+	@Override
+	public boolean updateById1(BookUpdateForm form) {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		if(bookDao.findAuthorId(form.getAuthorname())==1){
+			BookModel model = new BookModel(form.getBookId(), form.getBookname(), form.getYear(), bookmapper.findAuthorId(form.getAuthorname()).getAuthorId());
+			if(bookDao.update(model)==1){
+				flag = true;
+			}
+			return flag;						
+		}else{		
+			AuthorModel author = new AuthorModel(null, form.getAuthorname(),null, null);
+			mapper.insert(author);
+			BookModel model1 = new BookModel(form.getBookId(), form.getBookname(), form.getYear(),bookmapper.findAuthorId(form.getAuthorname()).getAuthorId());
+			if(bookDao.update(model1)==1){
+				flag = true;
+			}			
+			return flag;
+		}		
+	}
 
 	@Override
 	public int deleteById(long bookId) {

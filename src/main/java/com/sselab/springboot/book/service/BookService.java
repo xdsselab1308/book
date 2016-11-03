@@ -31,5 +31,7 @@ public interface BookService {
 	List<BookGetVM> getBookInof(int page, int limits);
 
 	AuthorModel selectById(long authorId);
+
+	boolean updateById1(BookUpdateForm form);
 }
 

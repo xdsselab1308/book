@@ -46,11 +46,22 @@ public class BookController {
         return bookId;
     }
     
-    @RequestMapping("/editBook")
+    @RequestMapping("/editBook1")
     @ResponseBody
     public long edit(@Valid @RequestBody BookUpdateForm form) {
         long bookId = bookService.updateById(form);
         return bookId;
+    }
+    
+    @RequestMapping("/editBook")
+    @ResponseBody
+    public String edit1(@Valid @RequestBody BookUpdateForm form) {
+    	String result = "fail";
+        boolean bookId = bookService.updateById1(form);
+        if(bookId){
+        	result = "success";
+        }
+        return result;
     }
     
     @RequestMapping("/deleteBook")
