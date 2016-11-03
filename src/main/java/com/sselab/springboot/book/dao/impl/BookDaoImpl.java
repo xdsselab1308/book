@@ -9,6 +9,7 @@ import com.sselab.springboot.book.dao.BookDao;
 import com.sselab.springboot.book.mapper.BookMapper;
 import com.sselab.springboot.book.model.AuthorModel;
 import com.sselab.springboot.book.model.BookModel;
+import com.sselab.springboot.book.vm.BookGetVM;
 
 @Repository
 public class BookDaoImpl implements BookDao {
@@ -94,7 +95,6 @@ public class BookDaoImpl implements BookDao {
 		// TODO Auto-generated method stub
 		return mapper.findBookByAuthorName(authorname);
 	}
-	
 	
 
 }

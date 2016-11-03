@@ -17,6 +17,7 @@ import com.sselab.springboot.book.form.BookForm;
 import com.sselab.springboot.book.form.BookUpdateForm;
 import com.sselab.springboot.book.model.BookModel;
 import com.sselab.springboot.book.service.BookService;
+import com.sselab.springboot.book.vm.BookGetVM;
 import com.sselab.springboot.book.vm.BookVM;
 
 
@@ -59,7 +60,7 @@ public class BookController {
         return flag;
     }
     
-    @RequestMapping("/getAllBook")
+    @RequestMapping("/getAllBook1")
     @ResponseBody
     public List<BookModel> list(@RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limits) {
@@ -67,6 +68,13 @@ public class BookController {
     	return list;
     }
     
+    @RequestMapping("/getAllBook")
+    @ResponseBody
+    public List<BookGetVM> list1(@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limits) {
+    	List<BookGetVM> list = bookService.getBookInof(page, limits);
+    	return list;
+    }
     
     @RequestMapping("/getBookById")
     @ResponseBody

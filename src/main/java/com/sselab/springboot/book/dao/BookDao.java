@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sselab.springboot.book.model.AuthorModel;
 import com.sselab.springboot.book.model.BookModel;
+import com.sselab.springboot.book.vm.BookGetVM;
 
 public interface  BookDao {
 	
@@ -28,5 +29,7 @@ public interface  BookDao {
 	BookModel findBookByName(String bookname);
 	
 	List<BookModel> finaBookByAuthorName(String authorname);
+	
+	
 
 }

@@ -1,5 +1,6 @@
 package com.sselab.springboot.book.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.sselab.springboot.book.mapper.BookMapper;
 import com.sselab.springboot.book.model.AuthorModel;
 import com.sselab.springboot.book.model.BookModel;
 import com.sselab.springboot.book.service.BookService;
+import com.sselab.springboot.book.vm.BookGetVM;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -114,5 +116,27 @@ public class BookServiceImpl implements BookService {
 	public List<BookModel> getBookByAuthorName(String authorname) {
 		// TODO Auto-generated method stub
 		return bookDao.finaBookByAuthorName(authorname);
+	}
+	
+	@Override
+	public AuthorModel selectById(long authorId) {
+		// TODO Auto-generated method stub
+		return mapper.selectByPrimaryKey(authorId);
+	}
+
+	@Override
+	public List<BookGetVM> getBookInof(int page, int limits) {
+		// TODO Auto-generated method stub
+		List<BookModel> model = bookDao.selectPaged(page, limits);
+		List<BookGetVM> bookmodel = new ArrayList<BookGetVM>();
+		for(int i=0;i<model.size();i++){
+			BookGetVM book = new BookGetVM();
+			book.setBookId(model.get(i).getBookId());
+			book.setBookname(model.get(i).getBookname());
+			book.setYear(model.get(i).getYear());
+			book.setAuthorname(mapper.selectByPrimaryKey(model.get(i).getAuthorId()).getAuthorname());
+			bookmodel.add(book);
+		}
+		return bookmodel;
 	}
 }
