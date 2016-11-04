@@ -83,7 +83,7 @@ public class BookDaoImpl implements BookDao {
 	}
 
 	@Override
-	public BookModel findBookByName(String bookname) {
+	public List<BookModel> findBookByName(String bookname) {
 		// TODO Auto-generated method stub
 		return mapper.findBookByName(bookname);
 	}
