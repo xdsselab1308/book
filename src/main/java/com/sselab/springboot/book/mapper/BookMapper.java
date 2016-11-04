@@ -18,7 +18,7 @@ public interface BookMapper extends BaseMapper<BookModel>{
             @Param("limits") Integer limits,
             @Param("orderBy") String orderBy);
 	
-	public BookModel findBookByName(String bookname);
+	public List<BookModel> findBookByName(String bookname);
 
 	public List<BookModel> findBookByAuthorName(String authorname);
 }

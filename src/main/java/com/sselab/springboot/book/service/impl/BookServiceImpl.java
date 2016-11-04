@@ -128,15 +128,36 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public BookModel getByName(String bookname) {
+	public List<BookGetVM> getByName(String bookname) {
 		// TODO Auto-generated method stub
-		return bookDao.findBookByName(bookname);
+		
+		List<BookModel> model = bookDao.findBookByName(bookname);
+		List<BookGetVM> bookmodel = new ArrayList<BookGetVM>();
+		for(int i=0;i<model.size();i++){
+			BookGetVM book = new BookGetVM();
+			book.setBookId(model.get(i).getBookId());
+			book.setBookname(model.get(i).getBookname());
+			book.setYear(model.get(i).getYear());
+			book.setAuthorname(mapper.selectByPrimaryKey(model.get(i).getAuthorId()).getAuthorname());
+			bookmodel.add(book);
+		}
+		return bookmodel;
 	}
 
 	@Override
-	public List<BookModel> getBookByAuthorName(String authorname) {
+	public List<BookGetVM> getBookByAuthorName(String authorname) {
 		// TODO Auto-generated method stub
-		return bookDao.finaBookByAuthorName(authorname);
+		List<BookModel> model = bookDao.finaBookByAuthorName(authorname);
+		List<BookGetVM> bookmodel = new ArrayList<BookGetVM>();
+		for(int i=0;i<model.size();i++){
+			BookGetVM book = new BookGetVM();
+			book.setBookId(model.get(i).getBookId());
+			book.setBookname(model.get(i).getBookname());
+			book.setYear(model.get(i).getYear());
+			book.setAuthorname(mapper.selectByPrimaryKey(model.get(i).getAuthorId()).getAuthorname());
+			bookmodel.add(book);
+		}
+		return bookmodel;
 	}
 	
 	@Override

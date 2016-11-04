@@ -24,9 +24,9 @@ public interface BookService {
 	
 	BookModel getById(long bookId);
 	
-	BookModel getByName(String bookname);
+	List<BookGetVM> getByName(String bookname);
 
-	public List<BookModel> getBookByAuthorName(String authorname);
+	public List<BookGetVM> getBookByAuthorName(String authorname);
 	
 	List<BookGetVM> getBookInof(int page, int limits);
 
