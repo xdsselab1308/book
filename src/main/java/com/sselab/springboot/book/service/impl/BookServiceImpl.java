@@ -1,11 +1,6 @@
 package com.sselab.springboot.book.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.sselab.springboot.book.dao.BookDao;
 import com.sselab.springboot.book.form.BookForm;
 import com.sselab.springboot.book.form.BookUpdateForm;
@@ -15,6 +10,11 @@ import com.sselab.springboot.book.model.AuthorModel;
 import com.sselab.springboot.book.model.BookModel;
 import com.sselab.springboot.book.service.BookService;
 import com.sselab.springboot.book.vm.BookGetVM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -30,18 +30,28 @@ public class BookServiceImpl implements BookService {
     
     
 	@Override
+    @HystrixCommand(fallbackMethod = "getBookInfoFB")
 	public List<BookModel> getBookInfo(Long authorId) {
 		// TODO Auto-generated method stub
 		return bookDao.getInfo(authorId);
 	}
 
+    public List<BookModel> getBookInfoFB(Long authorId) {
+        //这里可以添加错误日志的收集
+        return null;
+    }
+
 	@Override
+    @HystrixCommand(fallbackMethod = "getAuthorIdFB")
 	public long getAuthorId(String authorname) {
 		// TODO Auto-generated method stub
 		return bookDao.findAuthorId(authorname);
 	}
+
+    public long getAuthorIdFB(String authorname) {    return 0l;  }
 	
 	@Override
+    @HystrixCommand(fallbackMethod = "addFB")
 	public long add(BookForm form) {
 		// TODO Auto-generated method stub
 		if(bookDao.findAuthorId(form.getAuthorname())==1){
@@ -71,7 +81,10 @@ public class BookServiceImpl implements BookService {
 
 	}
 
+    public long addFB(BookForm form) {  return 0l;  }
+
 	@Override
+    @HystrixCommand(fallbackMethod = "updateByIdFB")
 	public long updateById(BookUpdateForm form) {
 		// TODO Auto-generated method stub
 		
@@ -87,8 +100,11 @@ public class BookServiceImpl implements BookService {
 			return model1.getBookId();
 		}		
 	}
+
+    public long updateByIdFB(BookUpdateForm form) {   return 0l;  }
 	
 	@Override
+    @HystrixCommand(fallbackMethod = "updateById1FB")
 	public boolean updateById1(BookUpdateForm form) {
 		// TODO Auto-generated method stub
 		boolean flag = false;
@@ -109,26 +125,41 @@ public class BookServiceImpl implements BookService {
 		}		
 	}
 
+    public boolean updateById1FB(BookUpdateForm form) { return false; }
+
 	@Override
+    @HystrixCommand(fallbackMethod = "deleteByIdFB")
 	public int deleteById(long bookId) {
 		// TODO Auto-generated method stub
 		return bookDao.deleteById(bookId);
 	}
 
+    public int deleteByIdFB(long bookId) {    return 0;   }
+
 	@Override
+    @HystrixCommand(fallbackMethod = "selectPagedFB")
 	public List<BookModel> selectPaged(int page, int limits) {
 		// TODO Auto-generated method stub
 		return bookDao.selectPaged(page, limits);
 	}
 
+    public List<BookModel> selectPagedFB(int page, int limits) {  return null;    }
+
 	@Override
+    @HystrixCommand(fallbackMethod = "getByIdFB")
 	public BookModel getById(long bookId) {
 		// TODO Auto-generated method stub
 		return bookDao.selectById(bookId);
 	}
 
+    public BookModel getByIdFB(long bookId) {
+        System.out.println("error");
+        return null;
+    }
+
 	@Override
-	public List<BookGetVM> getByName(String bookname) {
+    @HystrixCommand(fallbackMethod = "getByNameFB")
+	public BookModel getByName(String bookname) {
 		// TODO Auto-generated method stub
 		
 		List<BookModel> model = bookDao.findBookByName(bookname);
@@ -144,8 +175,11 @@ public class BookServiceImpl implements BookService {
 		return bookmodel;
 	}
 
+    public BookModel getByNameFB(String bookname) {   return null;    }
+
 	@Override
-	public List<BookGetVM> getBookByAuthorName(String authorname) {
+    @HystrixCommand(fallbackMethod = "getBookByAuthorNameFB")
+	public List<BookModel> getBookByAuthorName(String authorname) {
 		// TODO Auto-generated method stub
 		List<BookModel> model = bookDao.finaBookByAuthorName(authorname);
 		List<BookGetVM> bookmodel = new ArrayList<BookGetVM>();
@@ -159,14 +193,20 @@ public class BookServiceImpl implements BookService {
 		}
 		return bookmodel;
 	}
+
+    public List<BookModel> getBookByAuthorNameFB(String authorname) { return null;    }
 	
 	@Override
+    @HystrixCommand(fallbackMethod = "selectByIdFB")
 	public AuthorModel selectById(long authorId) {
 		// TODO Auto-generated method stub
 		return mapper.selectByPrimaryKey(authorId);
 	}
 
+    public AuthorModel selectByIdFB(long authorId) {  return null;    }
+
 	@Override
+    @HystrixCommand(fallbackMethod = "getBookInofFB")
 	public List<BookGetVM> getBookInof(int page, int limits) {
 		// TODO Auto-generated method stub
 		List<BookModel> model = bookDao.selectPaged(page, limits);
@@ -181,4 +221,6 @@ public class BookServiceImpl implements BookService {
 		}
 		return bookmodel;
 	}
+
+    public List<BookGetVM> getBookInofFB(int page, int limits) {  return null;    }
 }
