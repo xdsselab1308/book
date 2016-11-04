@@ -26,7 +26,7 @@ public interface  BookDao {
 	
 	BookModel selectById(long bookId);
 	
-	BookModel findBookByName(String bookname);
+	List<BookModel> findBookByName(String bookname);
 	
 	List<BookModel> finaBookByAuthorName(String authorname);
 	

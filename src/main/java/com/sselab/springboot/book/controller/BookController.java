@@ -7,12 +7,18 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sselab.springboot.book.form.BookForm;
 import com.sselab.springboot.book.form.BookUpdateForm;
 import com.sselab.springboot.book.model.BookModel;
@@ -25,6 +31,20 @@ import com.sselab.springboot.book.vm.BookVM;
 public class BookController {
 
 	private static final Log log = LogFactory.getLog(BookController.class);
+	
+	protected ResponseEntity renderJson(Integer code) {
+        return renderJson(code, null);
+    }
+	
+	protected <T> ResponseEntity renderJson(Integer code, T obj) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+
+        root.put("code", code);
+        root.putPOJO("results", obj);
+
+        return new ResponseEntity<>(root, HttpStatus.OK);
+    }
 
     @Autowired
     private BookService bookService;
@@ -58,11 +78,25 @@ public class BookController {
     public String edit1(@Valid @RequestBody BookUpdateForm form) {
     	String result = "fail";
         boolean bookId = bookService.updateById1(form);
+        System.out.println(bookId);
         if(bookId){
         	result = "success";
         }
         return result;
     }
+    
+    @RequestMapping("/editBook12")
+    @ResponseBody
+    public ResponseEntity list(@Valid @RequestBody BookUpdateForm form) {
+    	String result = "fail";
+        boolean bookId = bookService.updateById1(form);
+        System.out.println(bookId);
+        if(bookId){
+        	result = "success";
+        }
+        return renderJson(0, result);
+    }
+    
     
     @RequestMapping("/deleteBook")
     @ResponseBody
@@ -96,16 +130,16 @@ public class BookController {
     
     @RequestMapping("/getBookByName")
     @ResponseBody
-    public BookModel getBook(@RequestParam String bookname) {
-    	BookModel model = bookService.getByName(bookname);
+    public List<BookGetVM> getBook1(@RequestParam String bookname) {
+    	List<BookGetVM> model = bookService.getByName(bookname);
     	return model;
     }
     
     
     @RequestMapping("/getBookByAuthorName")
     @ResponseBody
-    public List<BookModel> getBookByAuthorName(@RequestParam String authorname) {
-    	List<BookModel> list = bookService.getBookByAuthorName(authorname);
+    public List<BookGetVM> getBookByAuthorName(@RequestParam String authorname) {
+    	List<BookGetVM> list = bookService.getBookByAuthorName(authorname);
     	return list;
     }
     

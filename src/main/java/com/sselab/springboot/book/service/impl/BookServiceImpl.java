@@ -161,7 +161,18 @@ public class BookServiceImpl implements BookService {
     @HystrixCommand(fallbackMethod = "getByNameFB")
 	public BookModel getByName(String bookname) {
 		// TODO Auto-generated method stub
-		return bookDao.findBookByName(bookname);
+		
+		List<BookModel> model = bookDao.findBookByName(bookname);
+		List<BookGetVM> bookmodel = new ArrayList<BookGetVM>();
+		for(int i=0;i<model.size();i++){
+			BookGetVM book = new BookGetVM();
+			book.setBookId(model.get(i).getBookId());
+			book.setBookname(model.get(i).getBookname());
+			book.setYear(model.get(i).getYear());
+			book.setAuthorname(mapper.selectByPrimaryKey(model.get(i).getAuthorId()).getAuthorname());
+			bookmodel.add(book);
+		}
+		return bookmodel;
 	}
 
     public BookModel getByNameFB(String bookname) {   return null;    }
@@ -170,7 +181,17 @@ public class BookServiceImpl implements BookService {
     @HystrixCommand(fallbackMethod = "getBookByAuthorNameFB")
 	public List<BookModel> getBookByAuthorName(String authorname) {
 		// TODO Auto-generated method stub
-		return bookDao.finaBookByAuthorName(authorname);
+		List<BookModel> model = bookDao.finaBookByAuthorName(authorname);
+		List<BookGetVM> bookmodel = new ArrayList<BookGetVM>();
+		for(int i=0;i<model.size();i++){
+			BookGetVM book = new BookGetVM();
+			book.setBookId(model.get(i).getBookId());
+			book.setBookname(model.get(i).getBookname());
+			book.setYear(model.get(i).getYear());
+			book.setAuthorname(mapper.selectByPrimaryKey(model.get(i).getAuthorId()).getAuthorname());
+			bookmodel.add(book);
+		}
+		return bookmodel;
 	}
 
     public List<BookModel> getBookByAuthorNameFB(String authorname) { return null;    }
