@@ -31,20 +31,6 @@ import com.sselab.springboot.book.vm.BookVM;
 public class BookController {
 
 	private static final Log log = LogFactory.getLog(BookController.class);
-	
-	protected ResponseEntity renderJson(Integer code) {
-        return renderJson(code, null);
-    }
-	
-	protected <T> ResponseEntity renderJson(Integer code, T obj) {
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode root = mapper.createObjectNode();
-
-        root.put("code", code);
-        root.putPOJO("results", obj);
-
-        return new ResponseEntity<>(root, HttpStatus.OK);
-    }
 
     @Autowired
     private BookService bookService;
@@ -64,14 +50,7 @@ public class BookController {
     public long add(@Valid @RequestBody BookForm form) {
         long bookId = bookService.add(form);
         return bookId;
-    }
-    
-    @RequestMapping("/editBook1")
-    @ResponseBody
-    public long edit(@Valid @RequestBody BookUpdateForm form) {
-        long bookId = bookService.updateById(form);
-        return bookId;
-    }
+    }    
     
     @RequestMapping("/editBook")
     @ResponseBody
@@ -83,34 +62,13 @@ public class BookController {
         	result = "success";
         }
         return result;
-    }
-    
-    @RequestMapping("/editBook12")
-    @ResponseBody
-    public ResponseEntity list(@Valid @RequestBody BookUpdateForm form) {
-    	String result = "fail";
-        boolean bookId = bookService.updateById1(form);
-        System.out.println(bookId);
-        if(bookId){
-        	result = "success";
-        }
-        return renderJson(0, result);
-    }
-    
+    }        
     
     @RequestMapping("/deleteBook")
     @ResponseBody
     public long delete(@RequestParam Long bookId) {
         int flag = bookService.deleteById(bookId);
         return flag;
-    }
-    
-    @RequestMapping("/getAllBook1")
-    @ResponseBody
-    public List<BookModel> list(@RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int limits) {
-    	List<BookModel> list = bookService.selectPaged(page, limits);
-    	return list;
     }
     
     @RequestMapping("/getAllBook")
@@ -133,17 +91,14 @@ public class BookController {
     public List<BookGetVM> getBook1(@RequestParam String bookname) {
     	List<BookGetVM> model = bookService.getByName(bookname);
     	return model;
-    }
-    
+    }    
     
     @RequestMapping("/getBookByAuthorName")
     @ResponseBody
     public List<BookGetVM> getBookByAuthorName(@RequestParam String authorname) {
     	List<BookGetVM> list = bookService.getBookByAuthorName(authorname);
     	return list;
-    }
-    
-    
+    }        
     
 }
 
